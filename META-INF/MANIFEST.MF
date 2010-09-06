@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EclipseCoder Core
+Bundle-SymbolicName: net.fornwall.eclipsecoder; singleton:=true
+Bundle-Version: 0.3.5
+Bundle-Vendor: Fredrik Fornwall
+Export-Package: .,
+ net.fornwall.eclipsecoder.actions,
+ net.fornwall.eclipsecoder.languages,
+ net.fornwall.eclipsecoder.preferences,
+ net.fornwall.eclipsecoder.stats,
+ net.fornwall.eclipsecoder.util
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.3.0,4.0.0)",
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.debug.ui
+Bundle-Activator: net.fornwall.eclipsecoder.preferences.EclipseCoderPlugin
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

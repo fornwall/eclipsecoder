@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>EclipseCoder language support</title>
+<style>@import url("file:/home/fornwall/bin/eclipsecoder-directory/plugins/org.eclipse.sdk_3.2.1.r321_v20060705/book.css");</style>
+<style>@import url("file:/home/fornwall/bin/eclipsecoder-directory/configuration/org.eclipse.osgi/bundles/100/1/.cp/schema.css");</style>
+</HEAD>
+<BODY>
+<H1><CENTER>EclipseCoder language support</CENTER></H1>
+<p></p>
+<h6 class=CaptionFigColumn id=header>Identifier: </h6>net.fornwall.eclipsecoder.languagesupport<p></p>
+<h6 class=CaptionFigColumn id=header>Since: </h6>0.1
+<p></p>
+
+<p>
+<h6 class=CaptionFigColumn id=header>Description: </h6>Extension point to register support for additional programming languages.</p>
+<p><h6 class=CaptionFigColumn id=header>Configuration Markup:</h6></p>
+<p class=code id=dtd>&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.languagesupport">languagesupport</a>)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST extension</p>
+<p class=code id=dtdAttlist>point&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.languagesupport">languagesupport</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST languagesupport</p>
+<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>language&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - Language support class implementing fornwall.net.eclipsecoder.languagesupport.LanguageSupport</li>
+<li><b>language</b> - The programming language being supported by this plugin</li>
+</ul>
+<br><h6 class=CaptionFigColumn id=header>Examples: </h6>From the Java language support plugin:
+<pre>
+<p class=code id=tag>&lt;extension point=<p class=code id=cstring>&quot;net.fornwall.eclipsecoder.languagesupport&quot;</p><p class=code id=tag>&gt;</p>
+<p class=code id=tag>&lt;languagesupport
+ language=<p class=code id=cstring>&quot;Java&quot;</p><p class=code id=tag>
+ class=<p class=code id=cstring>&quot;net.fornwall.eclipsecoder.javasupport.JavaLanguageSupport&quot;</p><p class=code id=tag>/&gt;</p>
+<p class=code id=tag>&lt;/extension&gt;</p>
+</pre>
+<p></p>
+
+<br>
+<p class=note id=copyright>
+</p>
+</BODY>
+</HTML>

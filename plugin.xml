@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension-point
+		id="languagesupport"
+		name="EclipseCoder language support"
+		schema="schema/net.fornwall.eclipsecoder.languagesupport.exsd"/>
+
+   <extension point="org.eclipse.ui.views">
+      <category name="EclipseCoder" id="net.fornwall.eclipsecoder.views"/>
+      <view
+            name="Problem Statement"
+            icon="icons/tc_logo.gif"
+            category="net.fornwall.eclipsecoder.views"
+            class="net.fornwall.eclipsecoder.views.ProblemStatementView"
+            id="net.fornwall.eclipsecoder.views.ProblemStatementView"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.fornwall.eclipsecoder.preferences.PreferencesPage"
+            id="net.fornwall.eclipsecoder.preferences.PreferencesPage"
+            name="EclipseCoder"/>
+   </extension>
+
+</plugin>
