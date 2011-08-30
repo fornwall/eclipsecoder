@@ -98,7 +98,7 @@ public class Utilities {
 	}
 
 	public static String getMatch(String text, String regExp, int group) {
-		Matcher matcher = Pattern.compile(regExp).matcher(text);
+		Matcher matcher = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE).matcher(text);
 		return matcher.find() ? matcher.group(group) : null;
 	}
 
