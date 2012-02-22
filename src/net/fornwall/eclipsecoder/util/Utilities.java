@@ -83,13 +83,13 @@ public class Utilities {
 	}
 
 	public static String getFileContents(IFile file) throws CoreException, IOException {
+		String lineSeparator = System.getProperty("line.separator");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(file.getContents(), file.getCharset(true)));
 		try {
 			StringBuilder stringBuilder = new StringBuilder();
-			char[] buffer = new char[512];
-			int count;
-			while ((count = reader.read(buffer)) != -1) {
-				stringBuilder.append(buffer, 0, count);
+			String line;
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line).append(lineSeparator);
 			}
 			return stringBuilder.toString();
 		} finally {
