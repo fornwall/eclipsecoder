@@ -31,7 +31,7 @@ public class LaunchTopCoderAppletJob extends Job {
 
 	private static final String APPLET_BASE_URL = "http://www.topcoder.com/contest/classes/7.0/";
 	private static final String[] APPLET_JARS = {
-		"arena-client-7.0.2.jar",
+		"arena-client-7.0.3.jar",
 		"basic_type_serialization-1.0.1.jar",
 		"client-socket-SNAPSHOT.jar",
 		"concurrent-SNAPSHOT.jar",
