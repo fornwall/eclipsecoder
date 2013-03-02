@@ -1,5 +1,7 @@
 package net.fornwall.eclipsecoder.actions;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import net.fornwall.eclipsecoder.preferences.EclipseCoderPlugin;
 import net.fornwall.eclipsecoder.util.Utilities;
@@ -24,26 +27,15 @@ import org.osgi.framework.Bundle;
 
 /**
  * Job to launch the TopCoder contest applet. Downloads on demand from
- * http://www.topcoder.com/contest/classes/ContestApplet.jar and delegates
- * actual launching to {@link TopCoderAppletLauncher}.
+ * http://www.topcoder.com/contest/classes/ContestApplet.jar and delegates actual launching to
+ * {@link TopCoderAppletLauncher}.
  */
 public class LaunchTopCoderAppletJob extends Job {
 
-	private static final String APPLET_BASE_URL = "http://www.topcoder.com/contest/classes/7.0/";
-	private static final String[] APPLET_JARS = {
-		"arena-client-7.0.2.jar",
-		"basic_type_serialization-1.0.1.jar",
-		"client-socket-SNAPSHOT.jar",
-		"concurrent-SNAPSHOT.jar",
-		"encoder-SNAPSHOT.jar",
-		"arena-shared-SNAPSHOT.jar",
-		"client-common-SNAPSHOT.jar",
-		"compeng-common-SNAPSHOT.jar",
-		"custom-serialization-SNAPSHOT.jar",
-		"http-tunnel-client-SNAPSHOT.jar",
-		"log4j-1.2.13.jar"
-	};
-	
+	private static final String APPLET_JNLP = "http://community.topcoder.com/contest/arena/ContestAppletProd.jnlp";
+	private static final String JAR_REGEX = "<jar\\s*href=\"(.*?)\"\\s*/>";
+	private static String[][] APPLET_JARS;
+
 	private static final int ESTIMATED_APPLET_SIZE = 2000000;
 
 	private static boolean classLoaderWorks(ClassLoader loader) {
@@ -54,17 +46,17 @@ public class LaunchTopCoderAppletJob extends Job {
 			return false;
 		}
 	}
-	
-	private static File getLocalAppletJar(String jarname) {
+
+	private static File getLocalAppletJar(String[] jarname) {
 		File userHome = new File(System.getProperty("user.home"));
 		File eclipsecoderDir = new File(userHome, ".eclipsecoder");
 		if (((eclipsecoderDir.exists() && eclipsecoderDir.isDirectory()) || eclipsecoderDir.mkdir())
 				&& (eclipsecoderDir.canRead() && eclipsecoderDir.canWrite())) {
 			// try with global jar location outside workspace
-			return new File(eclipsecoderDir, jarname);
+			return new File(eclipsecoderDir, jarname[1]);
 		}
 		IPath stateLocation = EclipseCoderPlugin.getDefault().getStateLocation();
-		IPath jarLocation = stateLocation.append(jarname);
+		IPath jarLocation = stateLocation.append(jarname[1]);
 		return jarLocation.toFile();
 	}
 
@@ -72,15 +64,15 @@ public class LaunchTopCoderAppletJob extends Job {
 		super(name);
 	}
 
-	private IStatus download(IProgressMonitor monitor, String jarname) {
+	private IStatus download(IProgressMonitor monitor, String[] jarname) {
 		File jar = getLocalAppletJar(jarname);
 		InputStream in = null;
 		OutputStream out = null;
 
 		try {
-			URLConnection connection = new URL(APPLET_BASE_URL + jarname).openConnection();
+			URLConnection connection = new URL(jarname[0]).openConnection();
 			int jarSize = (connection.getContentLength() == -1) ? ESTIMATED_APPLET_SIZE : connection.getContentLength();
-			monitor.beginTask("Downloading applet: " + jarname, jarSize);
+			monitor.beginTask("Downloading applet: " + jarname[1], jarSize);
 
 			in = connection.getInputStream();
 			out = new FileOutputStream(jar);
@@ -91,9 +83,9 @@ public class LaunchTopCoderAppletJob extends Job {
 					Utilities.close(out);
 					if (jar.exists()) {
 						if (!jar.delete()) {
-							Utilities.showMessageDialog("Cannot delete file", "Cannot delete applet file:\n"
-									+ jar.getAbsolutePath()
-									+ "\n\nCheck permissions if problem persists.", true);
+							Utilities.showMessageDialog("Cannot delete file",
+									"Cannot delete applet file:\n" + jar.getAbsolutePath()
+											+ "\n\nCheck permissions if problem persists.", true);
 						}
 					}
 					StartTopCoderAppletAction.getAction().setEnabled(true);
@@ -125,7 +117,32 @@ public class LaunchTopCoderAppletJob extends Job {
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		for(String jarname : APPLET_JARS) {
+
+		BufferedReader br = null;
+		try {
+			URLConnection connection = new URL(APPLET_JNLP).openConnection();
+			br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			ArrayList<String> jarList = new ArrayList<String>();
+			String line = br.readLine();
+			while (line != null) {
+				line = line.trim();
+				if (line.matches(JAR_REGEX))
+					jarList.add(line.replaceAll(JAR_REGEX, "$1"));
+				line = br.readLine();
+			}
+			APPLET_JARS = new String[jarList.size()][2];
+			for (int i = 0; i < jarList.size(); i++) {
+				APPLET_JARS[i][0] = jarList.get(i);
+				APPLET_JARS[i][1] = jarList.get(i).substring(jarList.get(i).lastIndexOf('/'));
+				APPLET_JARS[i][1] = APPLET_JARS[i][1].substring(1);
+			}
+		} catch (Exception e) {
+			return new Status(IStatus.ERROR, EclipseCoderPlugin.PLUGIN_ID, IStatus.OK, e.getMessage(), e);
+		} finally {
+			Utilities.close(br);
+		}
+
+		for (String[] jarname : APPLET_JARS) {
 			File localAppletJar = getLocalAppletJar(jarname);
 			if (!localAppletJar.exists()) {
 				IStatus status = download(monitor, jarname);
@@ -134,7 +151,7 @@ public class LaunchTopCoderAppletJob extends Job {
 			}
 		}
 
-		for(String jarname : APPLET_JARS) {
+		for (String[] jarname : APPLET_JARS) {
 			File localAppletJar = getLocalAppletJar(jarname);
 			if (!localAppletJar.exists()) {
 				// should have been downloaded above
@@ -144,10 +161,10 @@ public class LaunchTopCoderAppletJob extends Job {
 		}
 
 		try {
-			for(String jarname : APPLET_JARS) {
+			for (String[] jarname : APPLET_JARS) {
 				File localAppletJar = getLocalAppletJar(jarname);
 				long lastModifiedLocal = localAppletJar.lastModified();
-				URLConnection connection = new URL(APPLET_BASE_URL + jarname).openConnection();
+				URLConnection connection = new URL(jarname[0]).openConnection();
 				long lastModifiedRemote = connection.getLastModified();
 				if (lastModifiedRemote > lastModifiedLocal) {
 					IStatus status = download(monitor, jarname);
@@ -156,7 +173,7 @@ public class LaunchTopCoderAppletJob extends Job {
 				}
 			}
 			URL[] urls = new URL[APPLET_JARS.length + 1];
-			for(int i = 0; i < APPLET_JARS.length; i++) {
+			for (int i = 0; i < APPLET_JARS.length; i++) {
 				urls[i] = getLocalAppletJar(APPLET_JARS[i]).toURI().toURL();
 			}
 			Bundle bundle = EclipseCoderPlugin.getDefault().getBundle();
@@ -174,9 +191,9 @@ public class LaunchTopCoderAppletJob extends Job {
 				String paths = "";
 
 				boolean flag = true;
-				for(String jarname : APPLET_JARS) {
+				for (String[] jarname : APPLET_JARS) {
 					File localAppletJar = getLocalAppletJar(jarname);
-					if(!localAppletJar.delete()) {
+					if (!localAppletJar.delete()) {
 						paths += "," + localAppletJar.getAbsolutePath();
 						flag = false;
 					}
