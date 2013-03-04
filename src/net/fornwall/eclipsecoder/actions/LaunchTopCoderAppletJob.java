@@ -121,11 +121,9 @@ public class LaunchTopCoderAppletJob extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		URL[] appletJars;
 
-		InputStream in = null;
 		try {
 			monitor.beginTask("Downloading JNLP: " + APPLET_JNLP, IProgressMonitor.UNKNOWN);
-			in = new URL(APPLET_JNLP).openStream();
-			Document jnlpDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+			Document jnlpDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(APPLET_JNLP);
 			NodeList jarList = jnlpDoc.getElementsByTagName("jar");
 			appletJars = new URL[jarList.getLength()];
 			for (int i = 0; i < jarList.getLength(); i++) {
@@ -133,8 +131,6 @@ public class LaunchTopCoderAppletJob extends Job {
 			}
 		} catch (Exception e) {
 			return new Status(IStatus.ERROR, EclipseCoderPlugin.PLUGIN_ID, IStatus.OK, e.getMessage(), e);
-		} finally {
-			Utilities.close(in);
 		}
 
 		for (URL appletJar : appletJars) {
