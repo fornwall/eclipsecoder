@@ -16,7 +16,7 @@ public abstract class AbstractLauncher implements Runnable {
 	private ILaunchConfigurationWorkingCopy createLaunchWorkingCopy() throws CoreException {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType configType = manager.getLaunchConfigurationType(getLauncherTypeId());
-		String launchConfigName = manager.generateUniqueLaunchConfigurationNameFrom(getLauncherName());
+		String launchConfigName = manager.generateLaunchConfigurationName(getLauncherName());
 		return configType.newInstance(null, launchConfigName);
 	}
 

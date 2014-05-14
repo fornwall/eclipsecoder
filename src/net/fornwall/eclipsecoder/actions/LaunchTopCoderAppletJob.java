@@ -68,33 +68,30 @@ public class LaunchTopCoderAppletJob extends Job {
 
 	private IStatus download(IProgressMonitor monitor, URL jarUrl) {
 		File jar = getLocalAppletJar(jarUrl);
-		InputStream in = null;
-		OutputStream out = null;
 
 		try {
 			URLConnection connection = jarUrl.openConnection();
 			int jarSize = (connection.getContentLength() == -1) ? ESTIMATED_APPLET_SIZE : connection.getContentLength();
 			monitor.beginTask("Downloading applet: " + jarUrl, jarSize);
 
-			in = connection.getInputStream();
-			out = new FileOutputStream(jar);
-			byte[] buffer = new byte[2048];
-			int i;
-			while ((i = in.read(buffer)) != -1) {
-				if (monitor.isCanceled()) {
-					Utilities.close(out);
-					if (jar.exists()) {
-						if (!jar.delete()) {
-							Utilities.showMessageDialog("Cannot delete file",
-									"Cannot delete applet file:\n" + jar.getAbsolutePath()
-											+ "\n\nCheck permissions if problem persists.", true);
+			try (InputStream in = connection.getInputStream(); OutputStream out = new FileOutputStream(jar)) {
+				byte[] buffer = new byte[2048];
+				int i;
+				while ((i = in.read(buffer)) != -1) {
+					if (monitor.isCanceled()) {
+						if (jar.exists()) {
+							if (!jar.delete()) {
+								Utilities.showMessageDialog("Cannot delete file",
+										"Cannot delete applet file:\n" + jar.getAbsolutePath()
+												+ "\n\nCheck permissions if problem persists.", true);
+							}
 						}
+						StartTopCoderAppletAction.getAction().setEnabled(true);
+						return Status.CANCEL_STATUS;
 					}
-					StartTopCoderAppletAction.getAction().setEnabled(true);
-					return Status.CANCEL_STATUS;
+					out.write(buffer, 0, i);
+					monitor.worked(i);
 				}
-				out.write(buffer, 0, i);
-				monitor.worked(i);
 			}
 		} catch (MalformedURLException e) {
 			// should never happen as APPLET_URL is a valid URL
@@ -109,9 +106,6 @@ public class LaunchTopCoderAppletJob extends Job {
 			}
 			StartTopCoderAppletAction.getAction().setEnabled(true);
 			return new Status(IStatus.ERROR, EclipseCoderPlugin.PLUGIN_ID, IStatus.OK, e.getMessage(), e);
-		} finally {
-			Utilities.close(in);
-			Utilities.close(out);
 		}
 
 		return null;

@@ -181,10 +181,10 @@ public class TopCoderAppletLauncher {
 								Toolkit.getDefaultToolkit()
 										.removeAWTEventListener(this);
 
-								Class eclipseCoderEntryPointClass = loader
+								Class<?> eclipseCoderEntryPointClass = loader
 										.loadClass("net.fornwall.eclipsecoder.arena.EclipseCoderEntryPoint");
 
-								Class pluginManagerClass = loader
+								Class<?> pluginManagerClass = loader
 										.loadClass("com.topcoder.client.contestApplet.editors.PluginManager");
 								Method getInstanceMethod = pluginManagerClass
 										.getMethod("getInstance");
@@ -193,9 +193,9 @@ public class TopCoderAppletLauncher {
 								// PluginManager pluginManager =
 								// PluginManager.getInstance();
 
-								Class editorPluginClass = loader
+								Class<?> editorPluginClass = loader
 										.loadClass("com.topcoder.client.contestApplet.editors.EditorPlugin");
-								Constructor<Object> constructorMethod = editorPluginClass
+								Constructor<?> constructorMethod = editorPluginClass
 										.getConstructor(String.class,
 												String.class, String.class,
 												boolean.class);
@@ -238,7 +238,7 @@ public class TopCoderAppletLauncher {
 								// editorPlugin
 								// });
 
-								Class localPreferencesClass = loader
+								Class<?> localPreferencesClass = loader
 										.loadClass("com.topcoder.client.contestApplet.common.LocalPreferences");
 								getInstanceMethod = localPreferencesClass
 										.getMethod("getInstance");
@@ -259,9 +259,9 @@ public class TopCoderAppletLauncher {
 								Map<String, Object> pluginsCache = (Map<String, Object>) cacheField
 										.get(pluginManager);
 
-								Class dynamicEditorClass = loader
+								Class<?> dynamicEditorClass = loader
 										.loadClass("com.topcoder.client.contestApplet.editors.DynamicEditor");
-								Constructor dynamicEditorConstructor = dynamicEditorClass
+								Constructor<?> dynamicEditorConstructor = dynamicEditorClass
 										.getConstructor(editorPluginClass);
 								Object ownEditor = dynamicEditorConstructor
 										.newInstance(editorPlugin);
@@ -301,7 +301,7 @@ public class TopCoderAppletLauncher {
 						}
 					}, AWTEvent.WINDOW_EVENT_MASK);
 
-			Class genericClass = loader
+			Class<?> genericClass = loader
 					.loadClass("com.topcoder.client.contestApplet.runner.generic");
 			Method mainMethod = genericClass.getMethod("main", String[].class);
 			// arguments taken from the JNLP file:
