@@ -31,8 +31,7 @@ import org.eclipse.ui.PlatformUI;
 public class CreateNewProjectAction extends Action {
 
 	/**
-	 * TODO: Use {@link IWorkspace#validatePath(String, int)} to validate path
-	 * name.
+	 * TODO: Use {@link IWorkspace#validatePath(String, int)} to validate path name.
 	 */
 	private static class NewProjectDialog extends Dialog {
 
@@ -95,8 +94,8 @@ public class CreateNewProjectAction extends Action {
 
 			projectNameField = new Text(container, SWT.BORDER);
 			projectNameField.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-			projectNameField.setText(CreateNewProjectAction.getNewProjectNameSuggestion(problem, EclipseCoderPlugin
-					.preferedLanguage()));
+			projectNameField.setText(CreateNewProjectAction.getNewProjectNameSuggestion(problem,
+					EclipseCoderPlugin.preferedLanguage()));
 
 			return container;
 		}
@@ -128,8 +127,8 @@ public class CreateNewProjectAction extends Action {
 	private IProject project;
 
 	public CreateNewProjectAction() {
-		super("Create new project", PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(
-				ISharedImages.IMG_TOOL_NEW_WIZARD));
+		super("Create new project", PlatformUI.getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_TOOL_NEW_WIZARD));
 		setEnabled(false);
 	}
 
