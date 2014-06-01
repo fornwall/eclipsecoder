@@ -26,8 +26,7 @@ public class EclipseCoderPlugin extends AbstractUIPlugin {
 	public static final String PREFERENCE_LANGUAGE = "languagePreference";
 
 	/**
-	 * Boolean specifying if user should be automatically logged in when
-	 * starting TopCoder arena applet.
+	 * Boolean specifying if user should be automatically logged in when starting TopCoder arena applet.
 	 */
 	public static final String PREFERENCE_TC_AUTOLOGON = "tcAutoLogon";
 
@@ -36,9 +35,8 @@ public class EclipseCoderPlugin extends AbstractUIPlugin {
 	public static final String PREFERENCE_TC_USERNAME = "tcUserName";
 
 	/**
-	 * Show a message to the user specifying that a TopCoder member account is
-	 * needed. Follow this by opening the preferences page allowing him to enter
-	 * information about this account.
+	 * Show a message to the user specifying that a TopCoder member account is needed. Follow this by opening the
+	 * preferences page allowing him to enter information about this account.
 	 */
 	public static void demandTcAccountSpecified() {
 		Utilities.runInDisplayThread(new Runnable() {

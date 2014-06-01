@@ -29,10 +29,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * A view which shows the problem statement of the TopCoder problem associated
- * with the active project in the workbench. If no TopCoder problem is
- * associated with the current problem a welcome text with instructions is is
- * shown instead.
+ * A view which shows the problem statement of the TopCoder problem associated with the active project in the workbench.
+ * If no TopCoder problem is associated with the current problem a welcome text with instructions is is shown instead.
  */
 public class ProblemStatementView extends ViewPart {
 
@@ -46,9 +44,8 @@ public class ProblemStatementView extends ViewPart {
 			+ "</ul></body></html>";
 
 	/**
-	 * When a project is associated with a TopCoder problem, the
-	 * project-relative path should be stored under this key under the project
-	 * preferences in a portable format.
+	 * When a project is associated with a TopCoder problem, the project-relative path should be stored under this key
+	 * under the project preferences in a portable format.
 	 * 
 	 * @see IResource#getProjectRelativePath()
 	 * @see IPath#toPortableString()
@@ -110,8 +107,7 @@ public class ProblemStatementView extends ViewPart {
 	private StartTopCoderAppletAction startTopCoderAppletAction = new StartTopCoderAppletAction();
 
 	/**
-	 * Update the content displayed in this view if the active project has
-	 * changed.
+	 * Update the content displayed in this view if the active project has changed.
 	 */
 	void updateContent() {
 		IEditorPart activeEditor = getSite().getPage().getActiveEditor();

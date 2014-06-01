@@ -73,8 +73,7 @@ public class ProblemStatement {
 	}
 
 	/**
-	 * Parse the values contained in text into an instance of the supplied
-	 * class.
+	 * Parse the values contained in text into an instance of the supplied class.
 	 * 
 	 * @param c
 	 *            The class which should be instantiated.

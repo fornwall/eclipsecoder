@@ -26,8 +26,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 /**
- * Each implementation of this class provides support for using a programming
- * language with EclipseCoder.
+ * Each implementation of this class provides support for using a programming language with EclipseCoder.
  * 
  * LanguageSupport has two separate tasks:
  * <ol>
@@ -75,8 +74,7 @@ public abstract class LanguageSupport {
 	protected abstract CodeGenerator createCodeGenerator(ProblemStatement problemStatemnt);
 
 	/**
-	 * Implementations implement this method to create the language-specific
-	 * parts of a project.
+	 * Implementations implement this method to create the language-specific parts of a project.
 	 * 
 	 * @return The file containing the problem class.
 	 * @throws Exception
@@ -170,8 +168,8 @@ public abstract class LanguageSupport {
 	}
 
 	/**
-	 * Implementations should return the ID of the editor that should be used to
-	 * open the problem statement source code file.
+	 * Implementations should return the ID of the editor that should be used to open the problem statement source code
+	 * file.
 	 * 
 	 * @return The appropriate editor ID.
 	 */
@@ -184,17 +182,16 @@ public abstract class LanguageSupport {
 	protected abstract String getCodeTemplate();
 
 	/**
-	 * Get the problem description in HTML form. This varies for each
-	 * programming language, but different subclasses of this class does not
-	 * need to reimplement this method as it takes language into account.
+	 * Get the problem description in HTML form. This varies for each programming language, but different subclasses of
+	 * this class does not need to reimplement this method as it takes language into account.
 	 * 
 	 * @return the HTML description of the problem statement
 	 */
 	String getHtmlDescription() {
 		try {
 			// change white on black to black on white
-			return problemStatement.getHtmlDescription().replaceAll("bgcolor=\"#000000\"", "").replaceAll(
-					"text=\"#ffffff\"", "");
+			return problemStatement.getHtmlDescription().replaceAll("bgcolor=\"#000000\"", "")
+					.replaceAll("text=\"#ffffff\"", "");
 		} catch (Exception e) {
 			// Very unlikely
 			Utilities.showException(e);
@@ -207,19 +204,17 @@ public abstract class LanguageSupport {
 	}
 
 	/**
-	 * Implementations should return the name of the programming language that
-	 * they provide support for. If the support is for one of the
-	 * TopCoder-supported languages C++, C#, Java or VB the named defined by the
-	 * *_LANGUAGE_NAME static fields of this interface must be used.
+	 * Implementations should return the name of the programming language that they provide support for. If the support
+	 * is for one of the TopCoder-supported languages C++, C#, Java or VB the named defined by the *_LANGUAGE_NAME
+	 * static fields of this interface must be used.
 	 * 
-	 * @return the name of the programming language that the implementation
-	 *         supports.
+	 * @return the name of the programming language that the implementation supports.
 	 */
 	public abstract String getLanguageName();
 
 	/**
-	 * Implementations should return the ID of the perspective to set when
-	 * working on the problem in the current language.
+	 * Implementations should return the ID of the perspective to set when working on the problem in the current
+	 * language.
 	 * 
 	 * @return The appropriate perspective ID.
 	 */
@@ -289,8 +284,7 @@ public abstract class LanguageSupport {
 	}
 
 	/**
-	 * Setting this will override the generated source and use the supplied
-	 * source instead unless null.
+	 * Setting this will override the generated source and use the supplied source instead unless null.
 	 * 
 	 * @param source
 	 *            The supplied source (stored on TC server).

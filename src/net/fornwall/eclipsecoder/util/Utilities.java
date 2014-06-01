@@ -125,8 +125,7 @@ public class Utilities {
 	 * 
 	 * @param fileName
 	 *            The name of the file to get.
-	 * @return A file (which does not need to exist) from the plugin state
-	 *         location.
+	 * @return A file (which does not need to exist) from the plugin state location.
 	 */
 	public static File getStateFile(String fileName) {
 		return EclipseCoderPlugin.getDefault().getStateLocation().append(fileName).toFile();
@@ -199,8 +198,8 @@ public class Utilities {
 	}
 
 	/**
-	 * Display a message dialog with the specified title and message. If
-	 * necessary, it does it asynchronously in the GUI thread.
+	 * Display a message dialog with the specified title and message. If necessary, it does it asynchronously in the GUI
+	 * thread.
 	 * 
 	 * @param title
 	 *            the title to display for the message box to show
@@ -260,8 +259,7 @@ public class Utilities {
 	 * @param projectToBuild
 	 *            the project to build before launching
 	 * @param runAfterBuild
-	 *            the Runnable to launch after the build on the projectToBuild
-	 *            has been completed
+	 *            the Runnable to launch after the build on the projectToBuild has been completed
 	 */
 	public static void buildAndRun(final IProject projectToBuild, final Runnable runAfterBuild) {
 		(new Thread() {

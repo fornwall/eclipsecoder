@@ -13,17 +13,14 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * This class represents a preference page that is contributed to the
- * Preferences dialog. By subclassing <samp>FieldEditorPreferencePage</samp>,
- * we can use the field support built into JFace that allows us to create a page
+ * This class represents a preference page that is contributed to the Preferences dialog. By subclassing
+ * <samp>FieldEditorPreferencePage</samp>, we can use the field support built into JFace that allows us to create a page
  * that is small and knows how to save, restore and apply itself.
  * <p>
- * This page is used to modify preferences only. They are stored in the
- * preference store that belongs to the main plug-in class. That way,
- * preferences can be accessed directly via the preference store.
+ * This page is used to modify preferences only. They are stored in the preference store that belongs to the main
+ * plug-in class. That way, preferences can be accessed directly via the preference store.
  */
-public class PreferencesPage extends FieldEditorPreferencePage implements
-		IWorkbenchPreferencePage {
+public class PreferencesPage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public PreferencesPage() {
 		super(GRID);
@@ -39,20 +36,17 @@ public class PreferencesPage extends FieldEditorPreferencePage implements
 
 	@Override
 	protected void createFieldEditors() {
-		userNameEditor = new StringFieldEditor(EclipseCoderPlugin.PREFERENCE_TC_USERNAME,
-				"TopCoder username", getFieldEditorParent());
+		userNameEditor = new StringFieldEditor(EclipseCoderPlugin.PREFERENCE_TC_USERNAME, "TopCoder username",
+				getFieldEditorParent());
 		addField(userNameEditor);
-		passwordEditor = new StringFieldEditor(
-				EclipseCoderPlugin.PREFERENCE_TC_PASSWORD, "TopCoder password",
+		passwordEditor = new StringFieldEditor(EclipseCoderPlugin.PREFERENCE_TC_PASSWORD, "TopCoder password",
 				getFieldEditorParent());
 		passwordEditor.getTextControl(getFieldEditorParent()).setEchoChar((char) 0x25CF);
 		addField(passwordEditor);
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 
-		autoLogonEditor = new BooleanFieldEditor(
-				EclipseCoderPlugin.PREFERENCE_TC_AUTOLOGON,
-				"Auto-logon when starting the TopCoder applet",
-				getFieldEditorParent());
+		autoLogonEditor = new BooleanFieldEditor(EclipseCoderPlugin.PREFERENCE_TC_AUTOLOGON,
+				"Auto-logon when starting the TopCoder applet", getFieldEditorParent());
 		addField(autoLogonEditor);
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 
@@ -61,22 +55,16 @@ public class PreferencesPage extends FieldEditorPreferencePage implements
 		for (int i = 0; i < labelAndValues.length; i++) {
 			labelAndValues[i][0] = labelAndValues[i][1] = languages.get(i);
 		}
-		addField(new RadioGroupFieldEditor(
-				EclipseCoderPlugin.PREFERENCE_LANGUAGE,
-				"Preferred programming language", 1, labelAndValues,
-				getFieldEditorParent(), true));
+		addField(new RadioGroupFieldEditor(EclipseCoderPlugin.PREFERENCE_LANGUAGE, "Preferred programming language", 1,
+				labelAndValues, getFieldEditorParent(), true));
 	}
 
 	@Override
 	public boolean performOk() {
 		if (autoLogonEditor.getBooleanValue()
-				&& (userNameEditor.getStringValue().length() == 0 || passwordEditor
-						.getStringValue().length() == 0)) {
-			MessageDialog
-					.openError(
-							getShell(),
-							"Incorrect",
-							"You need to specify your TopCoder member name and password for auto-logon to work");
+				&& (userNameEditor.getStringValue().length() == 0 || passwordEditor.getStringValue().length() == 0)) {
+			MessageDialog.openError(getShell(), "Incorrect",
+					"You need to specify your TopCoder member name and password for auto-logon to work");
 			return false;
 		}
 		return super.performOk();

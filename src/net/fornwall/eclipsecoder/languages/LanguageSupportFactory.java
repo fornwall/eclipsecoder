@@ -16,13 +16,11 @@ public class LanguageSupportFactory {
 	public static final String LANGUAGE_EXTENSION_SUPPORT_ID = "net.fornwall.eclipsecoder.languagesupport";
 
 	/**
-	 * Create a <code>LanguageSupport</code> instance for the given
-	 * programming language.
+	 * Create a <code>LanguageSupport</code> instance for the given programming language.
 	 * 
 	 * @param languageName
 	 *            The name of the programming language.
-	 * @return a language support if one is found, or null if no one could be
-	 *         found
+	 * @return a language support if one is found, or null if no one could be found
 	 */
 	public static LanguageSupport createLanguageSupport(String languageName) throws Exception {
 		for (IConfigurationElement element : getLanguageExtensions()) {
@@ -43,9 +41,8 @@ public class LanguageSupportFactory {
 	}
 
 	/**
-	 * Get all supported languages (where support for a programming language is
-	 * given by a plug-in). The names of the returned languages can be used to
-	 * create a <code>LanguageSupport</code> instance using
+	 * Get all supported languages (where support for a programming language is given by a plug-in). The names of the
+	 * returned languages can be used to create a <code>LanguageSupport</code> instance using
 	 * {@link #createLanguageSupport(String)}.
 	 * 
 	 * @return a sorted list with names of all supported languages

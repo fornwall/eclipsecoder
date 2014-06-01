@@ -5,11 +5,10 @@ import java.util.regex.Pattern;
 /**
  * Abstract base class for code generators for different programming languages.
  * 
- * A code generator should be able to map java language constructs to that of
- * another programming language.
+ * A code generator should be able to map java language constructs to that of another programming language.
  * 
- * Note that this class is just for code generation - support for eclipse
- * integration is from the appropriate language support.
+ * Note that this class is just for code generation - support for eclipse integration is from the appropriate language
+ * support.
  */
 public abstract class CodeGenerator {
 
@@ -26,9 +25,8 @@ public abstract class CodeGenerator {
 	}
 
 	/**
-	 * Method used for code generation of the solution stub. Should return a
-	 * dummy value so that the initial code stub returned by getSolutionStub()
-	 * compiles.
+	 * Method used for code generation of the solution stub. Should return a dummy value so that the initial code stub
+	 * returned by getSolutionStub() compiles.
 	 * 
 	 * The $DUMMYRETURN$ tag will be replaced with this value.
 	 * 
@@ -37,8 +35,7 @@ public abstract class CodeGenerator {
 	public abstract String getDummyReturnString();
 
 	/**
-	 * Should return the replacement for the $METHODPARAMS$ tag. Utility method
-	 * for use in getSolutionStub().
+	 * Should return the replacement for the $METHODPARAMS$ tag. Utility method for use in getSolutionStub().
 	 */
 	protected String getMethodParamsString() {
 		StringBuilder builder = new StringBuilder();
@@ -57,25 +54,23 @@ public abstract class CodeGenerator {
 	}
 
 	/**
-	 * Get the code template for the language. The code template should contain
-	 * the relevant tags which will be substituted.
+	 * Get the code template for the language. The code template should contain the relevant tags which will be
+	 * substituted.
 	 * 
 	 * <p>
-	 * The code template should be settable from a preference page and should
-	 * default to a reasonable value.
+	 * The code template should be settable from a preference page and should default to a reasonable value.
 	 * 
 	 * <p>
-	 * This method is not intended to be overridden by subclasses unless there
-	 * is special need.
+	 * This method is not intended to be overridden by subclasses unless there is special need.
 	 * 
 	 * @return the code template with the variables replaced
 	 */
 	public String getSolutionStub(String codeTemplate) {
 		return codeTemplate.replaceAll(Pattern.quote(TAG_CLASSNAME), problemStatement.getSolutionClassName())
-				.replaceAll(Pattern.quote(TAG_METHODNAME), problemStatement.getSolutionMethodName()).replaceAll(
-						Pattern.quote(TAG_METHODPARAMS), getMethodParamsString()).replaceAll(
-						Pattern.quote(TAG_DUMMYRETURN), getDummyReturnString()).replaceAll(
-						Pattern.quote(TAG_RETURNTYPE), getTypeString(problemStatement.getReturnType()));
+				.replaceAll(Pattern.quote(TAG_METHODNAME), problemStatement.getSolutionMethodName())
+				.replaceAll(Pattern.quote(TAG_METHODPARAMS), getMethodParamsString())
+				.replaceAll(Pattern.quote(TAG_DUMMYRETURN), getDummyReturnString())
+				.replaceAll(Pattern.quote(TAG_RETURNTYPE), getTypeString(problemStatement.getReturnType()));
 	}
 
 	/**
@@ -86,8 +81,7 @@ public abstract class CodeGenerator {
 	/**
 	 * Map a java language class to the matching language type.
 	 * 
-	 * Implementations for scripting languages without explicit types should
-	 * return an empty string.
+	 * Implementations for scripting languages without explicit types should return an empty string.
 	 * 
 	 * @param type
 	 *            The java class to map.

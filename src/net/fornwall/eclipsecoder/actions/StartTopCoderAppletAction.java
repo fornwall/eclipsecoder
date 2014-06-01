@@ -7,8 +7,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * The action for starting the TopCoder contest applet. Just launches as
- * {@link LaunchTopCoderAppletJob}.
+ * The action for starting the TopCoder contest applet. Just launches as {@link LaunchTopCoderAppletJob}.
  */
 public class StartTopCoderAppletAction extends Action {
 

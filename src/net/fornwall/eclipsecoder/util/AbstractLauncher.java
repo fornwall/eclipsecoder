@@ -21,8 +21,7 @@ public abstract class AbstractLauncher implements Runnable {
 	}
 
 	/**
-	 * Return launch configuration name that is seen in the user interface in
-	 * the Run&Debug dialogs.
+	 * Return launch configuration name that is seen in the user interface in the Run&Debug dialogs.
 	 */
 	protected abstract String getLauncherName();
 
