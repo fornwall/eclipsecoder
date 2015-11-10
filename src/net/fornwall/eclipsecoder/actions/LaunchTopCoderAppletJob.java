@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
  */
 public class LaunchTopCoderAppletJob extends Job {
 
-	private static final String APPLET_JNLP = "http://community.topcoder.com/contest/arena/ContestAppletProd.jnlp";
+	private static final String APPLET_JNLP = "https://community.topcoder.com/contest/arena/ContestAppletProd.jnlp";
 
 	private static final int ESTIMATED_APPLET_SIZE = 2000000;
 
