@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.fornwall.eclipsecoder.util.Utilities;
 
@@ -138,6 +140,8 @@ public class ProblemStatement {
 	private Class<?> returnType;
 
 	private List<TestCase> testCases = new ArrayList<TestCase>();
+	
+	private String modulo;
 
 	public String getHtmlDescription() {
 		return htmlDescription;
@@ -173,6 +177,7 @@ public class ProblemStatement {
 
 	public void setHtmlDescription(String htmlDescription) {
 		this.htmlDescription = htmlDescription;
+		modulo = extractModulo(htmlDescription);
 	}
 
 	public void setInContest(boolean inContest) {
@@ -218,11 +223,43 @@ public class ProblemStatement {
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
 	}
-
-	@Override
+	
+	public String getModulo() {
+		return modulo;
+	}
+	
+	/**
+	 * Borrowed from Greed plugin.
+	 * 
+	 * @param intro problem description
+	 * 
+	 * @return extracted modulo or null if none
+	 */
+    private String extractModulo(String intro)
+    {
+        /* d, modulo 1,000,000,007.</ */
+        String pattern = "mod(ulo)? (\\d[\\d,\\.]*\\d)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(intro);
+        String res = null;
+        // The modulo tends to be at the end of the statement. If there were
+        // multiple modulo 1,XXX,XXX,XXX statements, it is better to get the last.
+        while (m.find( )) {
+            try {
+                 res = "" + 
+                        java.text.NumberFormat.
+                         getNumberInstance(java.util.Locale.US).parse(m.group(2));
+            } catch (Exception e) {
+            }
+        }
+        return res;
+    }
+    
+    @Override
 	public String toString() {
 		return "CLASS: " + getSolutionClassName() + "\n" + "METHOD: " + getSolutionMethodName() + "\n"
-				+ "RETURNVALUE: " + getReturnType() + "\n" + "PARAMETERS: " + getParameterTypes() + "\n";
+				+ "RETURNVALUE: " + getReturnType() + "\n" + "PARAMETERS: " + getParameterTypes() + "\n"
+				+ "MODULO: " + getModulo();
 	}
 
 	/**

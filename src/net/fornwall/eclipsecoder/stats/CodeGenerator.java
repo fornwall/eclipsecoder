@@ -17,6 +17,7 @@ public abstract class CodeGenerator {
 	public static final String TAG_METHODNAME = "$METHODNAME$";
 	public static final String TAG_METHODPARAMS = "$METHODPARAMS$";
 	public static final String TAG_RETURNTYPE = "$RETURNTYPE$";
+	public static final String TAG_MODULO = "$MODULO$";
 
 	protected ProblemStatement problemStatement;
 
@@ -70,7 +71,8 @@ public abstract class CodeGenerator {
 				.replaceAll(Pattern.quote(TAG_METHODNAME), problemStatement.getSolutionMethodName())
 				.replaceAll(Pattern.quote(TAG_METHODPARAMS), getMethodParamsString())
 				.replaceAll(Pattern.quote(TAG_DUMMYRETURN), getDummyReturnString())
-				.replaceAll(Pattern.quote(TAG_RETURNTYPE), getTypeString(problemStatement.getReturnType()));
+				.replaceAll(Pattern.quote(TAG_RETURNTYPE), getTypeString(problemStatement.getReturnType()))
+				.replaceAll(Pattern.quote(TAG_MODULO), getModuloString());
 	}
 
 	/**
@@ -88,4 +90,13 @@ public abstract class CodeGenerator {
 	 * @return The matching language type.
 	 */
 	public abstract String getTypeString(Class<?> type);
+	
+	/**
+	 * Returns the modulo string, appropriate for the language.
+	 * 
+	 * @return modulo string, or empty string if none or not implemented
+	 */
+	public String getModuloString() {
+		return "";
+	}
 }
